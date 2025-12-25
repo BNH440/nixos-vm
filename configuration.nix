@@ -13,7 +13,7 @@ in
       ./hardware-configuration.nix
       (import "${home-manager}/nixos")
     ];
-   
+
   # Enable Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -121,6 +121,8 @@ in
   #   enableSSHSupport = true;
   # };
 
+  programs.ssh.startAgent = true;
+
   # Open minecraft ports
   # networking.firewall.allowedTCPPorts = [ 25565 ];
   # networking.firewall.allowedUDPPorts = [ 25565 ];
@@ -167,11 +169,11 @@ in
         forceSSL = true;
         root = "/var/www/blakehaug.com";
       };
-      # "vm.blakehaug.com" = {
-      #   enableACME = true;
-      #   forceSSL = true;
-      #   root = "/var/www/blakehaug.com";
-      # };
+      "vm.blakehaug.com" = {
+        useACMEHost = "blakehaug.com";
+        forceSSL = true;
+        root = "/var/www/blakehaug.com";
+      };
       "blake.ocf.berkeley.edu" = {
         enableACME = true;
         forceSSL = true;
@@ -180,12 +182,20 @@ in
     };
   };
   networking.firewall.allowedTCPPorts = [ 80 443 ];
+  age.secrets.cloudflare-api-key.file = ./secrets/cloudflare-api-key.age;
   security.acme = {
     acceptTerms = true;
     defaults.email = "blake@blakehaug.com";
-    certs."blakehaug.com".extraDomainNames = [
-      "www.blakehaug.com"
-    ];
+    certs."blakehaug.com" = {
+      dnsProvider = "cloudflare";
+      environmentFile = config.age.secrets.cloudflare-api-key.path;
+      webroot = null;
+
+      extraDomainNames = [
+        "www.blakehaug.com"
+        "vm.blakehaug.com"
+      ];
+    };
   };
   systemd.tmpfiles.rules = [
     "d /var/www/blakehaug.com 0755 deploy nginx -"
