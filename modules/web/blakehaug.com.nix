@@ -14,11 +14,6 @@
       forceSSL = true;
       root = "/var/www/blakehaug.com";
     };
-    "vm.blakehaug.com" = {
-      useACMEHost = "blakehaug.com";
-      forceSSL = true;
-      root = "/var/www/blakehaug.com";
-    };
     "blake.ocf.berkeley.edu" = {
       enableACME = true;
       forceSSL = true;
@@ -35,7 +30,6 @@
 
     extraDomainNames = [
       "www.blakehaug.com"
-      "vm.blakehaug.com"
     ];
   };
 
