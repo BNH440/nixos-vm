@@ -19,7 +19,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.blakeh = ./modules/home.nix;
+          home-manager.users.blakeh = ./modules/home/home.nix;
         }
       ];
     };
