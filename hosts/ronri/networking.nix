@@ -3,7 +3,7 @@
 {
   imports = [];
 
-  networking.hostName = "blake"; # Define your hostname.
+  networking.hostName = "ronri"; # Define your hostname.
 
   networking.networkmanager.enable = true;
 

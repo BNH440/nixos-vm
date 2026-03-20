@@ -1,5 +1,5 @@
 {
-  description = "NixOS flake for blake.ocf.berkeley.edu vm";
+  description = "NixOS flake for blakeh nix machines";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
@@ -16,19 +16,21 @@
   };
 
   outputs = { self, nixpkgs, agenix, home-manager, neovim-flake, nix-index-database, ... }@inputs: {
-    nixosConfigurations.blake = nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs; };
-      modules = [
-        ./modules/modules.nix
-        agenix.nixosModules.default
-        nix-index-database.nixosModules.default
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.blakeh = ./modules/home/home.nix;
-        }
-      ];
+    nixosConfigurations = {
+      ronri = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/ronri/default.nix
+          agenix.nixosModules.default
+          nix-index-database.nixosModules.default
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.blakeh = ./home/default.nix;
+          }
+        ];
+      };
     };
   };
 }
