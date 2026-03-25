@@ -22,12 +22,14 @@
     "blake.ocf.berkeley.edu" = {
       enableACME = true;
       forceSSL = true;
-      root = "/var/www/blakehaug.com";
+      globalRedirect = "blakehaug.com";
+      redirectCode = 302;
     };
     "ronri.ocf.berkeley.edu" = {
       enableACME = true;
       forceSSL = true;
-      root = "/var/www/blakehaug.com";
+      globalRedirect = "blakehaug.com";
+      redirectCode = 302;
     };
   };
 
